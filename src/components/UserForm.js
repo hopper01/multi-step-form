@@ -20,19 +20,33 @@ import FormPersonalDetails from './FormPersonalDetails';
 import Confirm from './Confirm';
 import Success from './Success';
 
+// interface for the localstorage
+const testFormDataObj = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  occupation: '',
+  city: '',
+  bio: '',
+};
+
 export class UserForm extends Component {
   constructor(props) {
-    const formData = JSON.parse(localStorage.getItem('testFormData'));
-    const { firstName, lastName, email, occupation, city, bio } = formData;
+    if ('testFormData' in localStorage) {
+      const formData = JSON.parse(localStorage.getItem('testFormData'));
+      var { firstName, lastName, email, occupation, city, bio } = formData;
+    } else {
+      localStorage.setItem('testFormData', JSON.stringify(testFormDataObj));
+    }
     super(props);
     this.state = {
       step: 1,
-      firstName,
-      lastName,
-      email,
-      occupation,
-      city,
-      bio,
+      firstName: firstName || '',
+      lastName: lastName || '',
+      email: email || '',
+      occupation: occupation || '',
+      city: city || '',
+      bio: bio || '',
     };
   }
 
