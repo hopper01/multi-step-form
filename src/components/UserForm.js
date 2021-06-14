@@ -22,6 +22,7 @@ import Success from './Success';
 
 // interface for the localstorage
 const testFormDataObj = {
+  step: 1,
   firstName: '',
   lastName: '',
   email: '',
@@ -34,13 +35,14 @@ export class UserForm extends Component {
   constructor(props) {
     if ('testFormData' in localStorage) {
       const formData = JSON.parse(localStorage.getItem('testFormData'));
-      var { firstName, lastName, email, occupation, city, bio } = formData;
+      var { step, firstName, lastName, email, occupation, city, bio } =
+        formData;
     } else {
       localStorage.setItem('testFormData', JSON.stringify(testFormDataObj));
     }
     super(props);
     this.state = {
-      step: 1,
+      step: step || 1,
       firstName: firstName || '',
       lastName: lastName || '',
       email: email || '',
@@ -49,13 +51,18 @@ export class UserForm extends Component {
       bio: bio || '',
     };
   }
-
+  updateStepInLocalStorage = step => {
+    const formData = JSON.parse(localStorage.getItem('testFormData'));
+    formData['step'] = step;
+    localStorage.setItem('testFormData', JSON.stringify(formData));
+  };
   // Proceed to next step
   nextStep = () => {
     const { step } = this.state;
     this.setState({
       step: step + 1,
     });
+    this.updateStepInLocalStorage(step + 1);
   };
 
   // Go back to prev step
@@ -64,6 +71,7 @@ export class UserForm extends Component {
     this.setState({
       step: step - 1,
     });
+    this.updateStepInLocalStorage(step - 1);
   };
 
   // Handle fields change
