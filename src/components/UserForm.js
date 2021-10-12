@@ -79,9 +79,7 @@ export class UserForm extends Component {
     const value = e.target.value;
     this.setState({ [input]: value });
     const formData = JSON.parse(localStorage.getItem('testFormData'));
-    Object.keys(formData).forEach(key => {
-      formData[input] = value;
-    });
+    formData[input] = value;
     localStorage.setItem('testFormData', JSON.stringify(formData));
   };
   render() {
